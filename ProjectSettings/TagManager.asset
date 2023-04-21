@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Letterbox Filler
+    uniqueID: 1259034849
+    locked: 0
+  - name: Background
+    uniqueID: 3410132767
+    locked: 0
+  - name: Projectiles
+    uniqueID: 2362129559
+    locked: 0
+  - name: Player and Enemies
+    uniqueID: 2172949815
+    locked: 0
