@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,8 +11,28 @@ public class PlayerController : MonoBehaviour
 
     public GameObject ProjectilePrefab;
 
+    private ProgressBar HealthBarHUDElement;
+
+    private void Start()
+    {
+        var uidoc = GameObject.Find("UI").GetComponent<UIDocument>();
+        HealthBarHUDElement = uidoc.rootVisualElement.Q<ProgressBar>("HealthBar");
+
+        GetComponent<Damageable>().OnDeath.AddListener(OnDeath);
+    }
+
+    private void OnDeath()
+    {
+        HealthBarHUDElement.value = 0;
+        HealthBarHUDElement.title = "UR DED";
+    }
+
     private void Update()
     {
+        var damageable = GetComponent<Damageable>();
+        HealthBarHUDElement.highValue = damageable.MaxHealth;
+        HealthBarHUDElement.value = damageable.Health;
+
         PollMovementInput();
         PollFireInput();
     }

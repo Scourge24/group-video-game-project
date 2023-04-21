@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField]
-    private float Health = 100f;
+    public GameObject ProjectilePrefab;
 
-    public void TakeDamage(float amount)
+    private const float FireCooldown = 0.25f;
+    private float TimeLastFired;
+
+    private void Update()
     {
-        Health -= amount;
-        if (Health <= 0)
+        if (Time.time - TimeLastFired > FireCooldown)
         {
-            Destroy(gameObject);
+            Fire();
         }
+    }
+
+    private void Fire()
+    {
+        TimeLastFired = Time.time;
+
+        GameObject proj = Instantiate(ProjectilePrefab);
+        proj.transform.SetPositionAndRotation(transform.position, transform.rotation);
     }
 }

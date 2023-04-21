@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
 {
-    private const float ProjectileSpeed = 50f;
-    private const float Damage = 5f;
+    public float ProjectileSpeed = 50f;
+    public float Damage = 5f;
 
     private void Update()
     {
-        transform.position += new Vector3(ProjectileSpeed, 0) * Time.deltaTime;
+        Vector3 translation = transform.rotation * new Vector3(ProjectileSpeed, 0);
+        transform.position += translation * Time.deltaTime;
 
         // Despawn when far enough offscreen.
         if (Mathf.Abs(transform.position.x) > 20f || Mathf.Abs(transform.position.y) > 20f)
@@ -25,10 +26,18 @@ public class ProjectileController : MonoBehaviour
             return;
         }
 
-        var enemy = collision.gameObject.GetComponent<EnemyController>();
-        if (enemy != null)
+        // Ignore collisions with friendly objects.
+        var ownable = collision.gameObject.GetComponent<Ownable>();
+        var selfOwnable = GetComponent<Ownable>();
+        if (ownable != null && selfOwnable != null && ownable.Team == selfOwnable.Team)
         {
-            enemy.TakeDamage(Damage);
+            return;
+        }
+
+        var damageable = collision.gameObject.GetComponent<Damageable>();
+        if (damageable != null)
+        {
+            damageable.TakeDamage(Damage);
         }
 
         Destroy(gameObject);

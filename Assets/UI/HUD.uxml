@@ -1,0 +1,4 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="HUDStylesheet.uss" />
+    <ui:ProgressBar class="hpbar" title="Health" high-value="100" name="HealthBar" style="align-items: stretch; height: 20px; width: 139px; padding-left: 0; margin-left: 3px; left: 10px; top: 10px;" />
+</ui:UXML>
