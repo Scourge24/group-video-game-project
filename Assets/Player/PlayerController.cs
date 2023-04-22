@@ -11,27 +11,27 @@ public class PlayerController : MonoBehaviour
 
     public GameObject ProjectilePrefab;
 
-    private ProgressBar HealthBarHUDElement;
+    private Damageable Damageable;
+    private HUDController HUD;
 
     private void Start()
     {
-        var uidoc = GameObject.Find("UI").GetComponent<UIDocument>();
-        HealthBarHUDElement = uidoc.rootVisualElement.Q<ProgressBar>("HealthBar");
+        HUD = FindObjectOfType<HUDController>();
+        Damageable = GetComponent<Damageable>();
 
-        GetComponent<Damageable>().OnDeath.AddListener(OnDeath);
+        Damageable.OnDeath.AddListener(OnDeath);
     }
 
     private void OnDeath()
     {
-        HealthBarHUDElement.value = 0;
-        HealthBarHUDElement.title = "UR DED";
+        // Once our health hits zero we'll be destroyed before updating again, so give the HUD a final update manually.
+        HUD.CurrentHealth = Damageable.Health;
     }
 
     private void Update()
     {
-        var damageable = GetComponent<Damageable>();
-        HealthBarHUDElement.highValue = damageable.MaxHealth;
-        HealthBarHUDElement.value = damageable.Health;
+        HUD.CurrentHealth = Damageable.Health;
+        HUD.MaxHealth = Damageable.MaxHealth;
 
         PollMovementInput();
         PollFireInput();
@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
         TimeLastFired = Time.time;
 
         GameObject proj = Instantiate(ProjectilePrefab);
-        proj.transform.position = transform.position;
+        proj.GetComponent<Ownable>().Team = GetComponent<Ownable>().Team;
+        proj.transform.SetPositionAndRotation(transform.position, transform.rotation);
     }
 }

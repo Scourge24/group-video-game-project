@@ -22,6 +22,7 @@ public class EnemyController : MonoBehaviour
         TimeLastFired = Time.time;
 
         GameObject proj = Instantiate(ProjectilePrefab);
+        proj.GetComponent<Ownable>().Team = GetComponent<Ownable>().Team;
         proj.transform.SetPositionAndRotation(transform.position, transform.rotation);
     }
 }
