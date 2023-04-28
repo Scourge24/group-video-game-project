@@ -13,7 +13,7 @@ public class ProjectileController : MonoBehaviour
         transform.position += translation * Time.deltaTime;
 
         // Despawn when far enough offscreen.
-        if (Mathf.Abs(transform.position.x) > 20f || Mathf.Abs(transform.position.y) > 20f)
+        if (Mathf.Abs(transform.position.x) > PlayerController.PlayAreaWidth * 1.5f || Mathf.Abs(transform.position.y) > PlayerController.PlayAreaHeight * 1.5f)
         {
             Destroy(gameObject);
         }

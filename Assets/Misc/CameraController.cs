@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    private readonly Vector2 TargetAspectRatio = new(16, 9);
+    private readonly Vector2 TargetAspectRatio = new(PlayerController.PlayAreaWidth, PlayerController.PlayAreaHeight);
 
     private float LastTargetAspectRatio;
     private float LastScreenAspectRatio;
@@ -13,6 +13,11 @@ public class CameraController : MonoBehaviour
     {
         float targetAspectRatio = TargetAspectRatio.x / TargetAspectRatio.y;
         float screenAspectRatio = Screen.width / (float)Screen.height;
+
+        if (!Mathf.Approximately(Camera.main.orthographicSize, PlayerController.PlayAreaHeight / 2))
+        {
+            Camera.main.orthographicSize = PlayerController.PlayAreaHeight / 2;
+        }
 
         if (screenAspectRatio == LastScreenAspectRatio && targetAspectRatio == LastTargetAspectRatio)
         {

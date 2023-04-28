@@ -5,11 +5,15 @@ using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
+    public GameObject ProjectilePrefab;
+
+    public const float PlayAreaWidth = 20;
+    public const float PlayAreaHeight = 10;
+
     private const float MovementSpeed = 10f;
     private const float FireCooldown = 0.05f;
-    private float TimeLastFired;
 
-    public GameObject ProjectilePrefab;
+    private float TimeLastFired;
 
     private Damageable Damageable;
     private HUDController HUD;
@@ -44,10 +48,8 @@ public class PlayerController : MonoBehaviour
 
         Vector3 newPosition = transform.position + MovementSpeed * Time.deltaTime * new Vector3(horizontal, vertical).normalized;
 
-        float horizontalCameraBound = Camera.main.orthographicSize * Screen.width / Screen.height;
-        float verticalCameraBound = Camera.main.orthographicSize * Screen.height / Screen.width;
-        newPosition.x = Mathf.Clamp(newPosition.x, -horizontalCameraBound, horizontalCameraBound);
-        newPosition.y = Mathf.Clamp(newPosition.y, -verticalCameraBound, verticalCameraBound);
+        newPosition.x = Mathf.Clamp(newPosition.x, -PlayAreaWidth / 2, PlayAreaWidth / 2);
+        newPosition.y = Mathf.Clamp(newPosition.y, -PlayAreaHeight / 2, PlayAreaHeight / 2);
 
         transform.position = newPosition;
     }
