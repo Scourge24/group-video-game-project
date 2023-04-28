@@ -30,6 +30,15 @@ public class PlayerController : MonoBehaviour
     {
         // Once our health hits zero we'll be destroyed before updating again, so give the HUD a final update manually.
         HUD.CurrentHealth = Damageable.Health;
+
+        // Kick the player to the main menu after a delay for now.
+        SessionManager.Instance.StartCoroutine(KickPlayerToMainMenuAfterDelay());
+    }
+
+    private IEnumerator KickPlayerToMainMenuAfterDelay()
+    {
+        yield return new WaitForSeconds(3f);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
     }
 
     private void Update()
